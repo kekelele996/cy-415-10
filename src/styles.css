@@ -241,12 +241,121 @@ main {
 .item-card__topline,
 .item-card__meta,
 .item-card__owner,
+.item-card__stats,
 .exchange-card header,
 .exchange-card footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+}
+
+.item-card__stats {
+  flex-wrap: wrap;
+}
+
+.hotness-pill,
+.stat-mini {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  border-radius: 999px;
+  padding: 3px 9px;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.stat-mini {
+  background: color-mix(in oklch, var(--rs-text), transparent 90%);
+  color: color-mix(in oklch, var(--rs-text), transparent 30%);
+  font-weight: 600;
+}
+
+.hotness-cold {
+  background: color-mix(in oklch, #6b7280, transparent 82%);
+  color: #5f6870;
+}
+
+.hotness-mild {
+  background: color-mix(in oklch, #3f8f5f, transparent 82%);
+  color: #2f7548;
+}
+
+.hotness-warm {
+  background: color-mix(in oklch, #bb7a35, transparent 78%);
+  color: #9b5c1c;
+}
+
+.hotness-hot {
+  background: color-mix(in oklch, #d9534f, transparent 74%);
+  color: #b9433f;
+}
+
+.hotness-super {
+  background: linear-gradient(135deg, #ff6b35, #d9534f);
+  color: #fffaf0;
+  box-shadow: 0 2px 8px rgb(217 83 79 / 40%);
+}
+
+.item-card--warm {
+  border-color: color-mix(in oklch, #bb7a35, transparent 50%);
+  box-shadow: 0 18px 40px rgb(187 122 53 / 14%);
+}
+
+.item-card--hot {
+  border-color: color-mix(in oklch, #d9534f, transparent 45%);
+  box-shadow: 0 20px 48px rgb(217 83 79 / 18%);
+}
+
+.item-card--super-hot {
+  border-color: transparent;
+  background:
+    linear-gradient(var(--rs-surface), var(--rs-surface)) padding-box,
+    linear-gradient(135deg, #ff6b35, #d9534f, #bb7a35) border-box;
+  border: 2px solid transparent;
+  box-shadow: 0 24px 56px rgb(217 83 79 / 25%);
+  transform: translateY(-1px);
+}
+
+.detail-hotness {
+  display: grid;
+  gap: 10px;
+}
+
+.detail-hotness__header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.detail-hotness__score {
+  font-size: 2rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.detail-hotness__breakdown {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.detail-hotness__breakdown div {
+  border-radius: 7px;
+  background: color-mix(in oklch, var(--rs-primary), transparent 90%);
+  padding: 10px 12px;
+}
+
+.detail-hotness__breakdown span {
+  display: block;
+  color: color-mix(in oklch, var(--rs-text), transparent 38%);
+  font-size: 0.78rem;
+}
+
+.detail-hotness__breakdown strong {
+  display: block;
+  margin-top: 4px;
+  font-size: 1.1rem;
 }
 
 .item-card h3 {

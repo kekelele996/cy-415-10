@@ -11,6 +11,7 @@ export interface Item {
   status: ItemStatus;
   location: string;
   created_at: string;
+  view_count: number;
 }
 
 export type ItemDraft = Omit<Item, 'id' | 'status' | 'created_at'> & {

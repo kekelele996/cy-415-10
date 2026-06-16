@@ -11,6 +11,22 @@
     <div class="toolbar">
       <van-search v-model="itemStore.keyword" placeholder="搜索物品、描述或地点" />
       <CategoryFilter v-model="itemStore.category" />
+      <div class="sort-toggle segmented">
+        <button
+          :class="{ active: itemStore.sortBy === 'latest' }"
+          type="button"
+          @click="itemStore.sortBy = 'latest'"
+        >
+          最新
+        </button>
+        <button
+          :class="{ active: itemStore.sortBy === 'hot' }"
+          type="button"
+          @click="itemStore.sortBy = 'hot'"
+        >
+          热度
+        </button>
+      </div>
     </div>
 
     <div v-if="itemStore.visibleItems.length" class="waterfall">

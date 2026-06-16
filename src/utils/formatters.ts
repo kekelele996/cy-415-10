@@ -50,3 +50,19 @@ export const statusToneClass = (status: ItemStatus | ExchangeStatus) => {
 };
 
 export const formatStatusMessage = (status: ItemStatus | ExchangeStatus) => STATUS_MESSAGE_MAP[status];
+
+export const formatHotness = (hotness: number): string => {
+  if (hotness >= 200) return '🔥 超热门';
+  if (hotness >= 100) return '🔥 热门';
+  if (hotness >= 50) return '✨ 渐热';
+  if (hotness >= 20) return '👀 有热度';
+  return '🌱 新晋';
+};
+
+export const getHotnessLevel = (hotness: number): 'super' | 'hot' | 'warm' | 'mild' | 'cold' => {
+  if (hotness >= 200) return 'super';
+  if (hotness >= 100) return 'hot';
+  if (hotness >= 50) return 'warm';
+  if (hotness >= 20) return 'mild';
+  return 'cold';
+};

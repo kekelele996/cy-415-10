@@ -18,6 +18,8 @@ export const useExchangeStore = defineStore('exchanges', {
       if (state.statusFilter === 'all') return state.exchanges;
       return state.exchanges.filter((item) => item.status === state.statusFilter);
     },
+    requestCountForItem: (state) => (itemId: string) =>
+      state.exchanges.filter((item) => item.to_item_id === itemId).length,
   },
   actions: {
     async hydrate() {

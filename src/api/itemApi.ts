@@ -15,6 +15,7 @@ const seedItems: Item[] = [
     status: ItemStatus.AVAILABLE,
     location: '杭州 · 西湖',
     created_at: new Date().toISOString(),
+    view_count: 42,
   },
   {
     id: 'item_books',
@@ -27,6 +28,7 @@ const seedItems: Item[] = [
     status: ItemStatus.AVAILABLE,
     location: '苏州 · 工业园',
     created_at: new Date(Date.now() - 1000 * 60 * 60 * 26).toISOString(),
+    view_count: 18,
   },
   {
     id: 'item_chair',
@@ -39,6 +41,7 @@ const seedItems: Item[] = [
     status: ItemStatus.AVAILABLE,
     location: '上海 · 徐汇',
     created_at: new Date(Date.now() - 1000 * 60 * 60 * 3).toISOString(),
+    view_count: 7,
   },
   {
     id: 'item_lamp',
@@ -51,6 +54,7 @@ const seedItems: Item[] = [
     status: ItemStatus.EXCHANGED,
     location: '杭州 · 西湖',
     created_at: new Date(Date.now() - 1000 * 60 * 60 * 90).toISOString(),
+    view_count: 105,
   },
 ];
 
@@ -74,8 +78,21 @@ export const itemApi = {
       id: storage.createId('item'),
       status: draft.status ?? ItemStatus.AVAILABLE,
       created_at: new Date().toISOString(),
+      view_count: 0,
     };
     await storage.set(STORAGE_KEYS.items, [nextItem, ...items]);
+    return nextItem;
+  },
+
+  async incrementViewCount(id: string): Promise<Item> {
+    const items = await this.list();
+    const current = items.find((item) => item.id === id);
+    if (!current) throw new Error('物品不存在');
+    const nextItem = { ...current, view_count: current.view_count + 1 };
+    await storage.set(
+      STORAGE_KEYS.items,
+      items.map((item) => (item.id === id ? nextItem : item)),
+    );
     return nextItem;
   },
 

@@ -26,6 +26,24 @@
             <dd>{{ formatDate(item.created_at) }}</dd>
           </div>
         </dl>
+
+        <div class="detail-hotness">
+          <div class="detail-hotness__header">
+            <span class="hotness-pill" :class="hotnessPillClass">{{ hotnessLabel }}</span>
+            <span class="detail-hotness__score">{{ hotness }}</span>
+          </div>
+          <div class="detail-hotness__breakdown">
+            <div>
+              <span>浏览量</span>
+              <strong>👁 {{ item.view_count }}</strong>
+            </div>
+            <div>
+              <span>交换请求</span>
+              <strong>🔄 {{ requestCount }}</strong>
+            </div>
+          </div>
+        </div>
+
         <UserBrief v-if="owner" :user="owner" />
 
         <div v-if="!isMine" class="exchange-box">
@@ -67,7 +85,14 @@ import { ItemStatus } from '@/constants/item';
 import { useAuthStore } from '@/stores/authStore';
 import { useExchangeStore } from '@/stores/exchangeStore';
 import { useItemStore } from '@/stores/itemStore';
-import { formatCondition, formatDate, formatItemStatus, statusToneClass } from '@/utils/formatters';
+import {
+  formatCondition,
+  formatDate,
+  formatHotness,
+  formatItemStatus,
+  getHotnessLevel,
+  statusToneClass,
+} from '@/utils/formatters';
 import { message } from '@/utils/message';
 
 const route = useRoute();
@@ -81,6 +106,18 @@ const isMine = computed(() => authStore.currentUser?.id === item.value?.user_id)
 const ownAvailableItems = computed(() =>
   authStore.currentUser ? itemStore.availableMyItems(authStore.currentUser.id) : [],
 );
+const hotness = computed(() => (item.value ? itemStore.hotnessOf(item.value) : 0));
+const hotnessLabel = computed(() => formatHotness(hotness.value));
+const requestCount = computed(() => (item.value ? itemStore.requestCountOf(item.value.id) : 0));
+const hotnessLevel = computed(() => getHotnessLevel(hotness.value));
+const hotnessPillClass = computed(() => {
+  const level = hotnessLevel.value;
+  if (level === 'super') return 'hotness-super';
+  if (level === 'hot') return 'hotness-hot';
+  if (level === 'warm') return 'hotness-warm';
+  if (level === 'mild') return 'hotness-mild';
+  return 'hotness-cold';
+});
 const selectedItemId = ref('');
 const messageText = ref('我想用这件闲置与你交换，可以沟通时间和地点。');
 
